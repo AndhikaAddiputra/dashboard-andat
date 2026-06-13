@@ -1,0 +1,4 @@
+prioritas_risiko,jumlah_wilayah,median_risk_index,rata_rata_putus_total,rata_rata_angka_putus_pct,rata_rata_putus_per_100k,rata_rata_kemiskinan_pct,rata_rata_rls,rata_rata_hls,wilayah
+Prioritas Rendah,4,11.033,115.25,0.0317,5.8988,3.6525,11.4925,14.0875,Kota Cimahi; Kota Bekasi; Kota Depok; Kota Bandung
+Prioritas Sedang,20,63.1039,295.95,0.0706,14.4895,8.7625,8.382,12.6595,Kab. Cianjur; Kab. Indramayu; Kab. Sukabumi; Kab. Bandung Barat; Kab. Subang; Kab. Majalengka; Kab. Kuningan; Kab. Pangandaran; Kab. Karawang; Kab. Garut; Kab. Cirebon; Kab. Purwakarta; Kab. Bogor; Kab. Ciamis; Kota Tasikmalaya; Kab. Bandung; Kota Banjar; Kab. Bekasi; Kota Cirebon; Kota Bogor
+Prioritas Tinggi,3,65.4166,385.3333,0.1568,32.481,8.8433,9.03,13.0933,Kab. Tasikmalaya; Kab. Sumedang; Kota Sukabumi
