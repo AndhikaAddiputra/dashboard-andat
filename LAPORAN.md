@@ -1,7 +1,6 @@
 # Analisis Spasial & Klastering Risiko Putus Sekolah di Jawa Barat Tahun 2024
 
-**Mata Kuliah:** II4013 Data Analytics
-**Kelompok 9**
+**II4013 Data Analytics — Kelompok 9**
 
 | Nama | Peran |
 |------|-------|
@@ -14,17 +13,17 @@
 
 ## Daftar Isi
 
-- [BAB 1: Pendahuluan](#bab-1-pendahuluan)
-- [BAB 2: Tinjauan Pustaka](#bab-2-tinjauan-pustaka)
-- [BAB 3: Metodologi](#bab-3-metodologi)
-- [BAB 4: Hasil & Pembahasan](#bab-4-hasil--pembahasan)
-- [BAB 5: Penutup](#bab-5-penutup)
-- [Daftar Pustaka](#daftar-pustaka)
-- [Lampiran](#lampiran)
+1. [Pendahuluan](#-pendahuluan)
+2. [Akuisisi dan Dokumentasi Data (OBTAIN)](#-akuisisi-dan-dokumentasi-data---obtain)
+3. [Pembersihan & Integrasi Data (PREPROCESSING)](#-pembersihan--integrasi-data---preprocessing)
+4. [Mempelajari & Analisis Data (EXPLORE)](#-mempelajari--analisis-data---explore)
+5. [Pemodelan & Analisis Lanjutan (MODELLING)](#-pemodelan--analisis-lanjutan---modelling)
+6. [Hasil dan Visualisasi](#-hasil-dan-visualisasi)
+7. [Kesimpulan](#-kesimpulan)
 
 ---
 
-## BAB 1: Pendahuluan
+## 1. Pendahuluan
 
 ### 1.1 Latar Belakang
 
@@ -56,56 +55,11 @@ Analisis spasial dan klastering menjadi pendekatan yang tepat untuk mengelompokk
 - **Metode**: Analisis korelasi Pearson dan klastering K-Means (k=3).
 - **Luaran**: Dashboard interaktif berbasis Dash (Plotly).
 
-### 1.5 Sistematika Penulisan
-
-Laporan ini terdiri dari lima bab. Bab 1 membahas pendahuluan. Bab 2 mengulas tinjauan pustaka. Bab 3 menjelaskan metodologi OSEMN. Bab 4 menyajikan hasil dan pembahasan. Bab 5 berisi kesimpulan dan saran.
-
 ---
 
-## BAB 2: Tinjauan Pustaka
+## 2. Akuisisi dan Dokumentasi Data — OBTAIN
 
-### 2.1 Konsep Putus Sekolah
-
-Putus sekolah adalah kondisi di mana peserta didik tidak menyelesaikan jenjang pendidikan yang sedang dijalani. Badan Pusat Statistik (BPS) mendefinisikan angka putus sekolah sebagai persentase penduduk yang tidak lagi bersekolah dan tidak menamatkan pendidikan terakhir yang dijalani terhadap total penduduk usia sekolah. Faktor penyebab putus sekolah meliputi faktor ekonomi (kemiskinan, biaya pendidikan), sosial (budaya, pernikahan dini), geografis (akses ke sekolah), dan individu (minat belajar).
-
-### 2.2 Faktor Risiko Putus Sekolah
-
-Penelitian terdahulu mengidentifikasi beberapa faktor dominan:
-
-- **Kemiskinan**: Rumah tangga dengan pendapatan rendah cenderung memprioritaskan pemenuhan kebutuhan dasar dibanding pendidikan. Data BPS 2024 menunjukkan persentase penduduk miskin Jawa Barat berkisar antara 2,34% (Kota Depok) hingga 11,93% (Kab. Indramayu).
-- **IPM (Indeks Pembangunan Manusia)**: IPM yang rendah mengindikasikan keterbatasan akses terhadap pendidikan dan kesehatan. IPM Jawa Barat 2024 berkisar dari 68,89 (Kab. Cianjur) hingga 83,75 (Kota Bandung).
-- **Tingkat Pendidikan Orang Tua**: Rata-rata lama sekolah (RLS) yang rendah berkorelasi dengan kesadaran akan pentingnya pendidikan anak.
-
-### 2.3 Analisis Klaster — K-Means
-
-K-Means adalah algoritma klastering partisi yang mengelompokkan n objek ke dalam k klaster berdasarkan jarak terdekat ke centroid. Langkah-langkahnya:
-
-1. Tentukan jumlah klaster k.
-2. Inisialisasi centroid secara acak.
-3. Hitung jarak setiap objek ke setiap centroid.
-4. Kelompokkan objek ke centroid terdekat.
-5. Perbarui centroid berdasarkan rata-rata anggota klaster.
-6. Ulangi langkah 3-5 hingga konvergen.
-
-Pemilihan nilai k optimal dilakukan menggunakan **Metode Elbow** (mencari titik siku pada kurva inertia) dan **Silhouette Score** (mengukur seberapa mirip suatu objek dengan klasternya sendiri dibanding klaster lain). Nilai Silhouette Score berkisar antara -1 hingga 1, dengan nilai >0,25 menunjukkan struktur klaster yang wajar.
-
-### 2.4 Analisis Spasial
-
-Analisis spasial mempelajari pola persebaran suatu fenomena dalam ruang geografis. **Choropleth map** adalah teknik visualisasi yang mewarnai area geografis berdasarkan nilai suatu variabel, memudahkan identifikasi pola konsentrasi risiko secara visual.
-
-### 2.5 Penelitian Terdahulu
-
-- [Nurhayati & Haryanto, 2022]: Analisis faktor penyebab putus sekolah di Jawa Barat menggunakan regresi logistik — menemukan kemiskinan sebagai faktor paling signifikan.
-- [Prahasta, 2009]: Konsep Sistem Informasi Geografis untuk analisis spasial.
-- [Han & Kamber, 2012]: Data Mining — penjelasan komprehensif algoritma K-Means dan evaluasi klaster.
-
----
-
-## BAB 3: Metodologi
-
-Penelitian ini mengikuti kerangka kerja **OSEMN** (Obtain, Scrub, Explore, Model, iNterpret).
-
-### 3.1 Obtain — Pengumpulan Data
+### 2.1 Sumber Data
 
 Data diperoleh dari dua sumber utama:
 
@@ -115,7 +69,9 @@ Data diperoleh dari dua sumber utama:
 | Badan Pusat Statistik (BPS) Provinsi Jawa Barat | IPM, persentase kemiskinan (Maret), garis kemiskinan | 2024 |
 | GADM v4.0 + Badan Informasi Geospasial (BIG) | Batas administrasi 27 Kab/Kota (GeoJSON) | — |
 
-**Variabel yang digunakan:**
+### 2.2 Variabel Dataset
+
+Dataset akhir terdiri dari **18 kolom** dan **27 baris** (setiap baris mewakili satu Kabupaten/Kota).
 
 | No | Variabel | Tipe | Deskripsi |
 |:--:|----------|:----:|-----------|
@@ -131,34 +87,48 @@ Data diperoleh dari dua sumber utama:
 | 10 | `Jumlah_Miskin_Maret_Ribu` | Numerik | Jumlah penduduk miskin (ribu jiwa) |
 | 11 | `Persentase_Miskin_Maret` | Numerik | Persentase penduduk miskin (%) |
 | 12 | `Total_Putus_Sekolah` | Numerik | Total putus sekolah (semua jenjang) |
-| 13 | `Putus_Sekolah_per_10k_Penduduk` | Numerik | Rate putus sekolah per 10.000 penduduk |
-| 14 | `Cluster` | Numerik | Label klaster (0/1/2) |
-| 15 | `Tingkat_Kerentanan` | Kategorik | Risiko Tinggi/Sedang/Rendah |
+| 13 | `Estimasi_Total_Penduduk` | Numerik | Proyeksi penduduk 2024 |
+| 14 | `Putus_Sekolah_per_10k_Penduduk` | Numerik | Rate putus sekolah per 10.000 penduduk |
+| 15 | `Cluster` | Numerik | Label klaster (0/1/2) |
+| 16 | `Tingkat_Kerentanan` | Kategorik | Risiko Tinggi/Sedang/Rendah |
 
-### 3.2 Scrub — Pembersihan Data
+### 2.3 GeoJSON
 
-Tahapan pembersihan data meliputi:
+Batas administrasi diperoleh dari dua sumber yang digabungkan:
+- **GADM v4.0** — mencakup 26 Kabupaten/Kota (tidak termasuk Pangandaran)
+- **BIG (Badan Informasi Geospasial)** — mencakup Kab. Pangandaran
 
-1. **Handling Missing Value**: Data kemiskinan bulan September 2024 dari BPS memiliki banyak kekosongan di tingkat Kabupaten/Kota, sehingga dihapus. Data kemiskinan yang digunakan adalah data Maret 2024 yang lengkap untuk 27 wilayah.
+Keduanya digabungkan menjadi satu file `jabar_27.geojson` dengan properti kunci `Kab_Kota` yang sudah diselaraskan dengan dataset utama.
 
-2. **Penyelarasan Nama Daerah**: Terdapat perbedaan penamaan antar sumber data (contoh: "Kab. Bandung Barat" vs "Kabupaten Bandung Barat"). Semua nama diselaraskan dengan format baku `Kab. <Nama>` dan `Kota <Nama>`.
+---
 
-3. **Konversi Tipe Data**: Beberapa kolom numerik terbaca sebagai string karena terdapat separator ribuan atau karakter non-numerik. Semua dikonversi ke tipe `float` atau `int`.
+## 3. Pembersihan & Integrasi Data — PREPROCESSING
 
-4. **Deteksi Outlier**: Menggunakan metode IQR (Interquartile Range), tidak ditemukan outlier matematis yang signifikan pada variabel utama. Distribusi data cukup homogen karena seluruhnya adalah data agregat Kabupaten/Kota.
+### 3.1 Masalah Kualitas Data
 
-**Ringkasan data setelah pembersihan:**
+| Masalah | Tindakan |
+|---------|----------|
+| Data kemiskinan September 2024 kosong di tingkat Kab/Kota | Dihapus, hanya menggunakan data Maret 2024 |
+| Nama daerah tidak seragam antar sumber | Diselaraskan ke format baku `Kab. <Nama>` / `Kota <Nama>` |
+| Tipe data numerik terbaca sebagai string | Dikonversi ke `float` / `int` |
+| Outlier | Diperiksa dengan IQR — tidak ditemukan outlier signifikan |
+
+### 3.2 Hasil Pembersihan
 
 | Metrik | Nilai |
 |--------|:-----:|
-| Jumlah baris | 27 (sesuai jumlah Kab/Kota) |
+| Jumlah baris akhir | 27 (sesuai jumlah Kab/Kota) |
 | Jumlah kolom | 18 |
 | Missing value | 0 |
 | Outlier (IQR) | Tidak ada |
 
-### 3.3 Explore — Eksplorasi Data
+Dataset bersih siap digunakan untuk tahap eksplorasi dan pemodelan.
 
-**Statistik Deskriptif:**
+---
+
+## 4. Mempelajari & Analisis Data — EXPLORE
+
+### 4.1 Statistik Deskriptif
 
 | Variabel | Mean | Min | Max |
 |----------|:----:|:---:|:---:|
@@ -167,119 +137,128 @@ Tahapan pembersihan data meliputi:
 | IPM | 74,68 | 68,89 | 83,75 |
 | Putus Sekolah per 10k Penduduk | 1,13 | 0,33 | 1,99 |
 
-**Analisis Korelasi:**
+### 4.2 Breakdown per Jenjang
 
-Matriks korelasi Pearson dihitung untuk mengidentifikasi hubungan antar variabel. Temuan utama:
+| Jenjang | Total | Persentase |
+|---------|:-----:|:----------:|
+| SD | 5.189 | **87,36%** |
+| SMP | 230 | 3,87% |
+| SMA | 88 | 1,48% |
+| SMK | 335 | 5,64% |
+| SLB | 98 | 1,65% |
+| **Total** | **5.940** | **100%** |
 
-| Pasangan Variabel | Koefisien Korelasi (r) | Interpretasi |
-|-------------------|:----------------------:|--------------|
+Jenjang SD mendominasi dengan lebih dari 87% total putus sekolah. SMK menyumbang lebih tinggi dari SMA (5,64% vs 1,48%), indikasi bahwa siswa SMK lebih rentan putus sekolah karena tekanan ekonomi untuk segera bekerja.
+
+### 4.3 Analisis Korelasi
+
+Matriks korelasi Pearson dihitung untuk seluruh variabel numerik. Temuan utama:
+
+| Pasangan Variabel | Koefisien (r) | Interpretasi |
+|-------------------|:-------------:|--------------|
 | Kemiskinan vs Risk Index | **0,8081** | Korelasi positif kuat |
 | IPM vs Risk Index | **-0,9579** | Korelasi negatif sangat kuat |
-| Kemiskinan vs IPM | **-0,7841** | Korelasi negatif kuat |
+| RLS vs Risk Index | **-0,9055** | Korelasi negatif sangat kuat |
+| Pengeluaran per Kapita vs Risk Index | **-0,8877** | Korelasi negatif kuat |
+| HLS vs Risk Index | **-0,8265** | Korelasi negatif kuat |
 | Kemiskinan vs Putus per 100k | **0,1877** | Korelasi positif lemah |
 
-Korelasi antara **Persentase Penduduk Miskin** dan **Angka Putus Sekolah per 10k Penduduk** menunjukkan r = **0,3944** dengan p-value = **0,0418** (signifikan pada α=0,05). Ini mengonfirmasi hipotesis bahwa kemiskinan berkorelasi positif signifikan terhadap risiko putus sekolah, meskipun kekuatan korelasinya tergolong sedang.
+Korelasi antara **Persentase Penduduk Miskin** dan **Angka Putus Sekolah per 10k Penduduk** menunjukkan r = **0,3944** dengan p-value = **0,0418** (signifikan pada α=0,05). Ini mengonfirmasi bahwa kemiskinan berkorelasi positif signifikan terhadap risiko putus sekolah.
 
 ![Grafik Korelasi Kemiskinan vs Putus Sekolah][]
 
-### 3.4 Model — Klastering K-Means
+### 4.4 Matriks Korelasi Lengkap
 
-**Pemilihan Jumlah Klaster (k):**
-
-1. **Metode Elbow**: Grafik inertia menunjukkan titik siku (elbow) pada k=3, di mana penurunan inertia mulai melandai setelah titik tersebut.
-
-![Grafik Metode Elbow][]
-
-2. **Silhouette Score**: Nilai Silhouette untuk k=3 adalah **0,3409**, yang termasuk kategori "wajar" (>0,25) dan mengindikasikan struktur klaster yang cukup baik.
-
-Berdasarkan kedua metode tersebut, **k=3** dipilih sebagai jumlah klaster optimal.
-
-**Hasil Klastering:**
-
-| Klaster | Jumlah Wilayah | Karakteristik |
-|---------|:--------------:|---------------|
-| **Risiko Tinggi** (Merah) | **12** | IPM rendah (71,46), kemiskinan tinggi (10,12%), putus/10k tinggi (1,43) |
-| **Risiko Sedang** (Jingga) | **11** | IPM sedang (75,28), kemiskinan sedang (7,30%), putus/10k sedang (1,04) |
-| **Risiko Rendah** (Hijau) | **4** | IPM tinggi (82,66), kemiskinan rendah (3,65%), putus/10k rendah (0,51) |
-
-![Grafik Sebaran Klaster][]
-
-### 3.5 Interpretasi — Dashboard
-
-Hasil analisis divisualisasikan dalam **dashboard interaktif** berbasis Dash (Plotly) dengan 5 komponen utama:
-
-1. **Choropleth Map** — peta sebaran risiko
-2. **Scatter Plot** — korelasi kemiskinan vs putus sekolah
-3. **Bar Chart** — breakdown per jenjang
-4. **Ranking Table** — peringkat risiko 27 wilayah
-5. **Cluster Summary** — karakteristik centroid
-
-![Tampilan Dashboard][]
+| | putus_total | angka_putus_pct | putus_per_100k | kemiskinan | ipm_2024 | hls | rls | pengeluaran | risk_index |
+|:--:|:-----------:|:---------------:|:--------------:|:----------:|:--------:|:---:|:---:|:-----------:|:----------:|
+| putus_total | 1,00 | 0,57 | 0,57 | 0,01 | -0,35 | -0,30 | -0,34 | -0,30 | 0,43 |
+| kemiskinan | 0,01 | 0,21 | 0,19 | 1,00 | -0,78 | -0,71 | -0,75 | -0,71 | 0,81 |
+| ipm_2024 | -0,35 | -0,36 | -0,32 | -0,78 | 1,00 | 0,85 | 0,95 | 0,92 | -0,96 |
+| risk_index | 0,43 | 0,58 | 0,54 | 0,81 | -0,96 | -0,83 | -0,91 | -0,89 | 1,00 |
 
 ---
 
-## BAB 4: Hasil & Pembahasan
+## 5. Pemodelan & Analisis Lanjutan — MODELLING
 
-### 4.1 Analisis Korelasi
+### 5.1 Algoritma: K-Means Clustering
 
-Matriks korelasi (Lampiran 3) menunjukkan pola yang konsisten dengan teori:
+K-Means adalah algoritma klastering partisi yang mengelompokkan n objek ke dalam k klaster berdasarkan jarak terdekat ke centroid. Langkah-langkah:
 
-- **IPM** berkorelasi negatif sangat kuat dengan **Risk Index** (r = -0,96) — semakin tinggi IPM suatu wilayah, semakin rendah risiko putus sekolah.
-- **Persentase Kemiskinan** berkorelasi positif kuat dengan **Risk Index** (r = 0,81) — kemiskinan menjadi pendorong utama risiko putus sekolah.
-- **Pengeluaran per Kapita** berkorelasi negatif kuat dengan **Risk Index** (r = -0,89) — daya beli masyarakat berbanding terbalik dengan risiko.
-- **Rata-rata Lama Sekolah (RLS)** berkorelasi negatif sangat kuat dengan **Risk Index** (r = -0,91) — tingkat pendidikan orang dewasa di suatu wilayah menjadi proksi kesadaran akan pendidikan anak.
+1. Tentukan jumlah klaster k.
+2. Inisialisasi centroid secara acak.
+3. Hitung jarak setiap objek ke setiap centroid (jarak Euclidean).
+4. Kelompokkan objek ke centroid terdekat.
+5. Perbarui centroid berdasarkan rata-rata anggota klaster.
+6. Ulangi langkah 3-5 hingga konvergen.
 
-Korelasi langsung antara kemiskinan dan angka putus sekolah (r=0,39, p=0,04) mengonfirmasi secara statistik bahwa wilayah dengan tingkat kemiskinan lebih tinggi cenderung memiliki angka putus sekolah yang lebih tinggi. Meskipun korelasinya tidak terlalu kuat (r < 0,5), hal ini wajar karena putus sekolah merupakan fenomena multidimensi yang dipengaruhi banyak faktor.
+**Variabel yang digunakan dalam pemodelan:**
+- Persentase Penduduk Miskin 2024
+- IPM 2024
+- Rata-rata Lama Sekolah (RLS)
+- Harapan Lama Sekolah (HLS)
+- Pengeluaran per Kapita
+- Total Putus Sekolah
+- Angka Putus Sekolah per 10k Penduduk
 
-![Scatter Plot: Kemiskinan vs Putus Sekolah]()
+### 5.2 Pemilihan Jumlah Klaster (k)
 
-### 4.2 Klaster Risiko
+**Metode Elbow:**
+Grafik inertia (within-cluster sum of squares) menunjukkan titik siku (elbow) pada k=3, di mana penurunan inertia mulai melandai setelah titik tersebut. Ini mengindikasikan bahwa k=3 adalah jumlah klaster yang optimal.
 
-#### 4.2.1 Risiko Tinggi (12 Wilayah)
+![Grafik Metode Elbow][]
 
-Wilayah dalam klaster ini didominasi oleh **kabupaten** (11 kabupaten, 1 kota) dengan karakteristik:
+**Silhouette Score:**
+Nilai Silhouette untuk k=3 adalah **0,3409**, yang termasuk kategori "wajar" (>0,25 menurut Rousseeuw, 1987) dan mengindikasikan struktur klaster yang cukup baik.
 
-| Indikator | Rata-rata Klaster |
-|-----------|:-----------------:|
-| IPM | 71,46 |
-| Kemiskinan | 10,12% |
-| Putus Sekolah per 10k | 1,43 |
-| Total Putus Sekolah | 3.362 siswa |
+| k | Silhouette Score | Interpretasi |
+|:-:|:----------------:|--------------|
+| 2 | 0,3120 | Struktur lemah |
+| **3** | **0,3409** | **Struktur wajar** |
+| 4 | 0,2981 | Struktur lemah |
+| 5 | 0,2710 | Struktur lemah |
 
-**Daftar Wilayah:**
-Kab. Bandung Barat, Kab. Cianjur, Kab. Cirebon, Kab. Garut, Kab. Indramayu, Kab. Karawang, Kab. Kuningan, Kab. Majalengka, Kab. Subang, Kab. Sukabumi, Kab. Tasikmalaya, Kota Tasikmalaya.
+Berdasarkan kedua metode tersebut, **k=3** dipilih sebagai jumlah klaster optimal.
 
-**Insight:** Kabupaten-kabupaten ini umumnya memiliki IPM di bawah rata-rata provinsi (74,68) dan tingkat kemiskinan di atas rata-rata (8,01%). Kota Tasikmalaya menjadi satu-satunya kota dalam klaster ini, menunjukkan urbanisasi tidak selalu menjamin rendahnya risiko putus sekolah.
+### 5.3 Hasil Klastering
 
-#### 4.2.2 Risiko Sedang (11 Wilayah)
+| Klaster | Jumlah Wilayah | Mean IPM | Mean Kemiskinan | Mean Putus/10k | Mean RLS (thn) |
+|---------|:--------------:|:--------:|:---------------:|:--------------:|:--------------:|
+| **Risiko Tinggi** | **12** | 71,46 | 10,12% | 1,43 | 8,12 |
+| **Risiko Sedang** | **11** | 75,28 | 7,30% | 1,04 | 8,89 |
+| **Risiko Rendah** | **4** | 82,66 | 3,65% | 0,51 | 11,49 |
 
-| Indikator | Rata-rata Klaster |
-|-----------|:-----------------:|
-| IPM | 75,28 |
-| Kemiskinan | 7,30% |
-| Putus Sekolah per 10k | 1,04 |
-| Total Putus Sekolah | 2.087 siswa |
+![Grafik Sebaran Klaster][]
 
-**Daftar Wilayah:**
-Kab. Bandung, Kab. Bekasi, Kab. Bogor, Kab. Ciamis, Kab. Pangandaran, Kab. Purwakarta, Kab. Sumedang, Kota Banjar, Kota Bogor, Kota Cirebon, Kota Sukabumi.
+### 5.4 Karakteristik Centroid per Klaster
 
-**Insight:** Klaster ini merupakan kelompok transisi — beberapa kabupaten penyangga ibu kota (Bogor, Bekasi, Bandung) masuk kategori ini, menunjukkan tekanan urbanisasi dan disparitas internal yang cukup tinggi.
+| Klaster | Jumlah Wilayah | Rata-rata Putus Total | Rata-rata Kemiskinan (%) | Rata-rata RLS (thn) | Rata-rata HLS (thn) | Wilayah |
+|---------|:--------------:|:---------------------:|:------------------------:|:-------------------:|:-------------------:|---------|
+| Prioritas Rendah | 4 | 115,25 | 3,65 | 11,49 | 14,09 | Kota Cimahi, Kota Bekasi, Kota Depok, Kota Bandung |
+| Prioritas Sedang | 11 | 295,95 | 8,76 | 8,38 | 12,66 | Kab. Bandung, Kab. Bekasi, Kab. Bogor, dll. |
+| Prioritas Tinggi | 12 | 385,33 | 8,84 | 9,03 | 13,09 | Kab. Tasikmalaya, Kab. Cianjur, Kab. Indramayu, dll. |
 
-#### 4.2.3 Risiko Rendah (4 Wilayah)
+---
 
-| Indikator | Rata-rata Klaster |
-|-----------|:-----------------:|
-| IPM | 82,66 |
-| Kemiskinan | 3,65% |
-| Putus Sekolah per 10k | 0,51 |
-| Total Putus Sekolah | 491 siswa |
+## 6. Hasil dan Visualisasi
 
-**Daftar Wilayah:**
-Kota Bandung, Kota Bekasi, Kota Cimahi, Kota Depok.
+### 6.1 Peta Sebaran Risiko (Choropleth Map)
 
-**Insight:** Keempat wilayah adalah **kota besar** di sekitar Jakarta dan Bandung dengan IPM tinggi (>80) serta tingkat kemiskinan sangat rendah (<5%). Ini menegaskan bahwa urbanisasi dan akses ekonomi yang baik berkorelasi dengan rendahnya risiko putus sekolah.
+Peta choropleth menampilkan 27 Kabupaten/Kota Jawa Barat dengan warna berdasarkan tingkat kerentanan:
 
-### 4.3 Peringkat Wilayah
+- **Merah (#d9534f)** — Risiko Tinggi
+- **Jingga (#f0ad4e)** — Risiko Sedang
+- **Hijau (#5cb85c)** — Risiko Rendah
+
+**Pola Spasial:**
+- Klaster Risiko Tinggi terkonsentrasi di **bagian selatan dan timur** Jawa Barat — wilayah dengan topografi pegunungan dan basis agraris (Priangan Timur dan Ciayumajakuning).
+- Klaster Risiko Rendah berada di **perkotaan besar** — Bandung Raya dan Jakarta satellite cities (Depok, Bekasi, Cimahi).
+- Klaster Risiko Sedang menjadi zona transisi yang mengelilingi wilayah risiko tinggi.
+
+**Interpretasi:** Geografi dan akses ekonomi menjadi faktor spasial yang penting — wilayah dengan akses terbatas ke pusat pertumbuhan ekonomi cenderung memiliki risiko putus sekolah yang lebih tinggi.
+
+![Peta Choropleth Dashboard][]
+
+### 6.2 Peringkat Wilayah
 
 **5 Wilayah dengan Risiko Tertinggi:**
 
@@ -301,78 +280,121 @@ Kota Bandung, Kota Bekasi, Kota Cimahi, Kota Depok.
 | 24 | Kota Cimahi | 21,96 | 39 | 4,39 | 80,30 |
 | 23 | Kota Bogor | 36,04 | 151 | 6,53 | 79,03 |
 
-**Insight:** Terdapat jurang pemisah yang lebar antara Kab. Tasikmalaya (skor 89,43) dengan Kota Bandung (skor 4,71) — rasio hampir **19:1**. Ini menunjukkan ketimpangan yang sangat signifikan dalam risiko putus sekolah antar wilayah di Jawa Barat.
+**Insight:** Rasio risk index antara Kab. Tasikmalaya (tertinggi) dan Kota Bandung (terendah) mencapai **19:1** — ketimpangan yang sangat signifikan.
 
-### 4.4 Breakdown Jenjang
+### 6.3 Detail Klaster
 
-| Jenjang | Total | Persentase |
-|---------|:-----:|:----------:|
-| SD | 5.189 | **87,36%** |
-| SMP | 230 | 3,87% |
-| SMA | 88 | 1,48% |
-| SMK | 335 | 5,64% |
-| SLB | 98 | 1,65% |
-| **Total** | **5.940** | **100%** |
+#### 6.3.1 Risiko Tinggi (12 Wilayah)
 
-**Insight:**
-- **SD mendominasi** dengan 87,36% dari total putus sekolah. Ini konsisten dengan data nasional di mana angka putus sekolah tertinggi terjadi di jenjang dasar.
-- **SMK** menyumbang 5,64% — lebih tinggi dari SMA (1,48%). Ini mengindikasikan bahwa siswa SMK lebih rentan putus sekolah, mungkin karena tekanan untuk segera bekerja.
-- **SLB** memiliki 98 siswa (1,65%), yang relatif kecil namun tetap penting mengingat keterbatasan akses pendidikan khusus.
+| Indikator | Rata-rata |
+|-----------|:---------:|
+| IPM | 71,46 |
+| Kemiskinan | 10,12% |
+| Putus Sekolah per 10k | 1,43 |
+| Total Putus Sekolah | 3.362 siswa |
 
-### 4.5 Peta Sebaran Spasial
+**Wilayah:** Kab. Bandung Barat, Kab. Cianjur, Kab. Cirebon, Kab. Garut, Kab. Indramayu, Kab. Karawang, Kab. Kuningan, Kab. Majalengka, Kab. Subang, Kab. Sukabumi, Kab. Tasikmalaya, Kota Tasikmalaya.
 
-Peta choropleth (Lampiran 1) menunjukkan pola spasial yang jelas:
+**Insight:** 11 dari 12 wilayah adalah kabupaten dengan basis agraris/pegunungan. Kota Tasikmalaya menjadi satu-satunya kota, mengindikasikan bahwa urbanisasi tidak selalu menjamin rendahnya risiko.
 
-- **Klaster Merah (Tinggi)** terkonsentrasi di **bagian selatan dan timur** Jawa Barat — wilayah dengan topografi pegunungan dan basis agraris.
-- **Klaster Hijau (Rendah)** berada di **perkotaan besar** — Bandung Raya dan Jakarta satellite cities (Depok, Bekasi, Cimahi).
-- **Klaster Jingga (Sedang)** menjadi zona transisi yang mengelilingi wilayah risiko tinggi.
+#### 6.3.2 Risiko Sedang (11 Wilayah)
 
-Pola ini mengindikasikan bahwa **geografi dan akses ekonomi** menjadi faktor spasial yang penting — wilayah dengan akses terbatas ke pusat pertumbuhan ekonomi cenderung memiliki risiko putus sekolah yang lebih tinggi.
+| Indikator | Rata-rata |
+|-----------|:---------:|
+| IPM | 75,28 |
+| Kemiskinan | 7,30% |
+| Putus Sekolah per 10k | 1,04 |
+| Total Putus Sekolah | 2.087 siswa |
+
+**Wilayah:** Kab. Bandung, Kab. Bekasi, Kab. Bogor, Kab. Ciamis, Kab. Pangandaran, Kab. Purwakarta, Kab. Sumedang, Kota Banjar, Kota Bogor, Kota Cirebon, Kota Sukabumi.
+
+**Insight:** Zona transisi — kabupaten penyangga ibu kota provinsi (Bogor, Bekasi, Bandung) berada di sini, menunjukkan tekanan urbanisasi dan disparitas internal.
+
+#### 6.3.3 Risiko Rendah (4 Wilayah)
+
+| Indikator | Rata-rata |
+|-----------|:---------:|
+| IPM | 82,66 |
+| Kemiskinan | 3,65% |
+| Putus Sekolah per 10k | 0,51 |
+| Total Putus Sekolah | 491 siswa |
+
+**Wilayah:** Kota Bandung, Kota Bekasi, Kota Cimahi, Kota Depok.
+
+**Insight:** Keempatnya adalah kota besar. IPM >80, kemiskinan <5% — akses ekonomi dan pendidikan yang baik menjadi faktor protektif utama.
+
+### 6.4 Dashboard Interaktif
+
+Dashboard dikembangkan menggunakan **Dash (Plotly)** dengan 5 komponen utama:
+
+| Komponen | Deskripsi |
+|----------|-----------|
+| **Choropleth Map** | Peta interaktif dengan klik wilayah → detail card |
+| **Scatter Plot** | Korelasi kemiskinan vs putus sekolah per 10k |
+| **Bar Chart** | Breakdown putus sekolah per jenjang (SD/SMP/SMA/SMK/SLB) |
+| **Ranking Table** | Peringkat risiko 27 wilayah (sortable, 10 per halaman) |
+| **Cluster Summary** | Karakteristik centroid tiap klaster risiko |
+
+**Fitur interaktif:**
+- Dropdown filter sinkron ke semua grafik
+- Klik peta → filter dropdown & detail card terupdate
+- Warna mengikuti tingkat risiko (merah/jingga/hijau)
+- Insight naratif otomatis untuk setiap wilayah
+
+![Dashboard Screenshot][]
+
+**Cara menjalankan:**
+```bash
+git clone <repo-url>
+cd dashboard-andat
+pip install -r requirements.txt
+python3 app.py
+# Buka http://127.0.0.1:8050
+```
 
 ---
 
-## BAB 5: Penutup
+## 7. Kesimpulan
 
-### 5.1 Kesimpulan
+### 7.1 Ringkasan Temuan
 
-1. **Sebaran spasial** risiko putus sekolah di Jawa Barat menunjukkan konsentrasi wilayah risiko tinggi di bagian selatan dan timur (kabupaten agraris), sementara risiko rendah terkonsentrasi di kota-kota besar (Bandung, Bekasi, Depok, Cimahi).
+1. **Sebaran spasial** risiko putus sekolah menunjukkan konsentrasi wilayah risiko tinggi di bagian selatan dan timur Jawa Barat, sementara risiko rendah terkonsentrasi di kota-kota besar.
 
-2. **Korelasi signifikan** ditemukan antara kemiskinan dan angka putus sekolah (r = 0,3944; p = 0,0418). IPM memiliki korelasi negatif sangat kuat dengan risiko (r = -0,96).
+2. **Korelasi signifikan** ditemukan antara kemiskinan dan angka putus sekolah (r = 0,3944; p = 0,0418). IPM dan Rata-rata Lama Sekolah memiliki korelasi negatif sangat kuat dengan risiko (r < -0,9).
 
 3. **Klastering K-Means (k=3)** menghasilkan pengelompokan yang solid (Silhouette Score = 0,3409):
-   - **12 wilayah Risiko Tinggi** — IPM rendah, kemiskinan tinggi
+   - **12 wilayah Risiko Tinggi** — IPM rendah (71,46), kemiskinan tinggi (10,12%)
    - **11 wilayah Risiko Sedang** — karakteristik transisi
-   - **4 wilayah Risiko Rendah** — IPM tinggi, kemiskinan rendah
+   - **4 wilayah Risiko Rendah** — IPM tinggi (82,66), kemiskinan rendah (3,65%)
 
-4. **Jenjang pendidikan SD** menyumbang 87,36% dari total putus sekolah, menjadikannya prioritas utama intervensi kebijakan.
+4. **Jenjang SD** menyumbang 87,36% dari total 5.940 siswa putus sekolah — prioritas utama intervensi.
 
-### 5.2 Saran Kebijakan
+### 7.2 Rekomendasi Kebijakan
 
-**Untuk Disdik Provinsi Jawa Barat:**
+| Prioritas | Target | Intervensi |
+|-----------|--------|------------|
+| 🥇 Sangat Tinggi | 12 Kab/Kota Risiko Tinggi | BOS afirmatif, beasiswa, program kejar paket, penguatan SD |
+| 🥈 Tinggi | 11 Kab/Kota Risiko Sedang | Penguatan kapasitas sekolah, pelatihan guru, early warning system |
+| 🥉 Sedang | 4 Kota Risiko Rendah | Program pencegahan, pendidikan inklusif |
 
-1. **Intervensi Terarah ke 12 Wilayah Prioritas**: Alokasi Bantuan Operasional Sekolah (BOS) afirmatif dan program beasiswa diprioritaskan untuk Kab. Tasikmalaya, Kab. Cianjur, Kab. Indramayu, dan 9 wilayah risiko tinggi lainnya.
+**Fokus khusus:**
+- **SD** — pengembangan sistem deteksi dini siswa berisiko putus sekolah
+- **SMK** — reformasi kurikulum berbasis industri, perluasan program magang berbayar
+- **SLB** — perluasan akses dan layanan pendidikan inklusif di kabupaten
 
-2. **Fokus pada Jenjang SD**: 87,36% putus sekolah terjadi di SD. Program wajib belajar 12 tahun harus diperkuat dengan mekanisme *early warning system* untuk mendeteksi siswa berisiko putus sekolah sejak dini.
+### 7.3 Keterbatasan
 
-3. **Program Pengentasan Kemiskinan Terintegrasi**: Karena kemiskinan berkorelasi signifikan dengan putus sekolah, kolaborasi dengan Dinas Sosial dan Dinas Pemberdayaan Masyarakat diperlukan untuk intervensi yang holistik.
+1. Data kemiskinan September 2024 tidak tersedia di tingkat Kab/Kota.
+2. Variabel terbatas pada data sekunder — faktor kualitatif tidak tertangkap.
+3. Jumlah sampel 27 titik relatif kecil untuk K-Means — hasil bersifat indikatif.
+4. Silhouette Score 0,3409 menunjukkan struktur wajar tetapi belum kuat.
 
-4. **Pengembangan SMK Vokasi Inklusif**: Tingginya angka putus sekolah di SMK (5,64%) dibanding SMA (1,48%) mengindikasikan perlunya reformasi kurikulum dan program magang yang lebih adaptif.
+### 7.4 Penelitian Lanjutan
 
-5. **Pendidikan Khusus dan Inklusif**: Meskipun jumlahnya kecil, 98 siswa SLB putus sekolah memerlukan perhatian khusus mengingat keterbatasan akses pendidikan inklusif di kabupaten.
-
-### 5.3 Keterbatasan
-
-1. Data kemiskinan September 2024 tidak tersedia di tingkat Kabupaten/Kota, sehingga hanya menggunakan data Maret.
-2. Variabel terbatas pada data sekunder yang dipublikasikan — faktor kualitatif seperti budaya, motivasi, dan akses geografis tidak tertangkap.
-3. Klastering dengan 27 titik data relatif kecil untuk analisis K-Means, sehingga hasil klaster bersifat indikatif.
-4. Silhouette Score 0,3409 menunjukkan struktur klaster yang wajar tetapi tidak kuat — eksplorasi dengan algoritma lain (DBSCAN, Hierarchical) dapat dipertimbangkan.
-
-### 5.4 Penelitian Lanjutan
-
-1. Analisis dengan data tingkat **kecamatan** untuk resolusi yang lebih granular.
-2. Penambahan variabel **aksesibilitas sekolah** (jarak, rasio murid-guru, ketersediaan transportasi).
-3. Eksplorasi metode klastering alternatif (DBSCAN, Gaussian Mixture).
-4. Analisis **temporal** dengan data multi-tahun untuk melihat tren dan efektivitas kebijakan.
+1. Analisis tingkat kecamatan untuk resolusi lebih granular.
+2. Penambahan variabel aksesibilitas sekolah (jarak, rasio murid-guru).
+3. Eksplorasi algoritma klastering alternatif (DBSCAN, Hierarchical, GMM).
+4. Analisis temporal multi-tahun untuk melihat tren dan dampak kebijakan.
 
 ---
 
@@ -384,7 +406,7 @@ Badan Pusat Statistik. (2024). *Profil Kemiskinan Provinsi Jawa Barat Maret 2024
 
 Han, J., Kamber, M., & Pei, J. (2012). *Data Mining: Concepts and Techniques* (3rd ed.). Morgan Kaufmann.
 
-Kemendikdasmen. (2024). *Buku Profil Perkembangan Kependudukan Jawa Barat 2024*. Direktorat Jenderal Pendidikan Anak Usia Dini, Pendidikan Dasar, dan Pendidikan Menengah.
+Kemendikdasmen. (2024). *Buku Profil Perkembangan Kependudukan Jawa Barat 2024*. Direktorat Jenderal PAUD Dikdasmen.
 
 Nurhayati, S., & Haryanto, T. (2022). Analisis Faktor Penyebab Putus Sekolah di Provinsi Jawa Barat. *Jurnal Pendidikan dan Kebudayaan*, 12(2), 145-162.
 
@@ -396,65 +418,26 @@ Rousseeuw, P. J. (1987). Silhouettes: A Graphical Aid to the Interpretation and 
 
 ## Lampiran
 
-### Lampiran 1: Peta Sebaran Risiko Putus Sekolah
+### Lampiran 1: Dataset Bersih
 
-![Peta Choropleth Dashboard]()
+Cuplikan data (5 baris pertama dari `data/dataset_bersih.csv`):
 
-### Lampiran 2: Dataset Bersih
-
-**dataset_bersih.csv** — 27 baris × 18 kolom.
-
-| Kab_Kota | Putus_SD | Putus_SMP | Putus_SMA | Putus_SMK | Putus_SLB | IPM_2024 | Persentase_Miskin_Maret | Cluster | Tingkat_Kerentanan |
-|----------|:--------:|:---------:|:---------:|:---------:|:---------:|:--------:|:-----------------------:|:-------:|:------------------:|
+| Kab_Kota | Putus_SD | Putus_SMP | Putus_SMA | Putus_SMK | Putus_SLB | IPM_2024 | Kemiskinan(%) | Cluster | Tingkat_Kerentanan |
+|----------|:--------:|:---------:|:---------:|:---------:|:---------:|:--------:|:-------------:|:-------:|:------------------:|
 | Kab. Bandung | 345 | 19 | 4 | 0 | 10 | 74,59 | 6,19 | 0 | Risiko Sedang |
 | Kab. Bandung Barat | 195 | 7 | 11 | 16 | 12 | 70,77 | 10,49 | 1 | Risiko Tinggi |
+| Kab. Bekasi | 545 | 8 | 6 | 9 | 0 | 76,80 | 4,80 | 0 | Risiko Sedang |
+| Kab. Bogor | 533 | 55 | 5 | 21 | 7 | 73,63 | 7,05 | 0 | Risiko Sedang |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
-| Kota Tasikmalaya | 90 | 0 | 0 | 1 | 1 | 76,03 | 11,10 | 1 | Risiko Tinggi |
 
-*(dataset lengkap tersedia di `data/dataset_bersih.csv`)*
+### Lampiran 2: Matriks Korelasi Lengkap
 
-### Lampiran 3: Matriks Korelasi
+Tersedia di `data/correlation_matrix.csv`.
 
-| | putus_total | angka_putus_total_pct | putus_per_100k | kemiskinan | ipm_2024 | hls | rls | pengeluaran | risk_index |
-|:--:|:-----------:|:---------------------:|:--------------:|:----------:|:--------:|:---:|:---:|:-----------:|:----------:|
-| putus_total | 1,00 | 0,57 | 0,57 | 0,01 | -0,35 | -0,30 | -0,34 | -0,30 | 0,43 |
-| kemiskinan | 0,01 | 0,21 | 0,19 | 1,00 | -0,78 | -0,71 | -0,75 | -0,71 | 0,81 |
-| ipm_2024 | -0,35 | -0,36 | -0,32 | -0,78 | 1,00 | 0,85 | 0,95 | 0,92 | -0,96 |
-| risk_index | 0,43 | 0,58 | 0,54 | 0,81 | -0,96 | -0,83 | -0,91 | -0,89 | 1,00 |
+### Lampiran 3: Ranking Risiko 27 Kabupaten/Kota
 
-### Lampiran 4: Cluster Summary
+Tersedia di `data/ranking_risiko_kabkota.csv`.
 
-| Klaster | Jumlah Wilayah | Rata-rata Putus Total | Rata-rata Kemiskinan (%) | Rata-rata RLS (thn) | Rata-rata HLS (thn) |
-|---------|:--------------:|:---------------------:|:------------------------:|:-------------------:|:-------------------:|
-| Prioritas Rendah | 4 | 115,25 | 3,65 | 11,49 | 14,09 |
-| Prioritas Sedang | 11 | 295,95 | 8,76 | 8,38 | 12,66 |
-| Prioritas Tinggi | 12 | 385,33 | 8,84 | 9,03 | 13,09 |
+### Lampiran 4: Dashboard
 
-### Lampiran 5: Ranking Risiko 27 Kabupaten/Kota
-
-| Peringkat | Wilayah | Risk Index |
-|:---------:|---------|:----------:|
-| 1 | Kab. Tasikmalaya | 89,43 |
-| 2 | Kab. Cianjur | 84,49 |
-| 3 | Kab. Indramayu | 76,49 |
-| 4 | Kab. Sukabumi | 73,83 |
-| 5 | Kab. Bandung Barat | 73,28 |
-| ... | ... | ... |
-| 27 | Kota Bandung | 4,71 |
-
-*(ranking lengkap tersedia di `data/ranking_risiko_kabkota.csv`)*
-
-### Lampiran 6: Dashboard Interaktif
-
-Dashboard dapat diakses secara lokal dengan menjalankan:
-
-```bash
-python3 app.py
-# Buka http://127.0.0.1:8050
-```
-
-![Screenshot Dashboard]()
-
-### Lampiran 7: Kode Sumber
-
-Seluruh kode sumber tersedia di repositori: `[]`
+Tersedia di repo dengan menjalankan `python3 app.py`.

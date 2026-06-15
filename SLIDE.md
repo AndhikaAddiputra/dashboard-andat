@@ -245,13 +245,7 @@ python3 app.py
 
 ---
 
-### Slide 15 — Q&A
-
-**Pertanyaan & Jawaban**
-
----
-
-### Slide 16 — Penutup
+### Slide 15 — Penutup
 
 **Terima Kasih**
 
