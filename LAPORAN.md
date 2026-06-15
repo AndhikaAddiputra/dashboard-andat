@@ -59,46 +59,153 @@ Analisis spasial dan klastering menjadi pendekatan yang tepat untuk mengelompokk
 
 ## 2. Akuisisi dan Dokumentasi Data — OBTAIN
 
-### 2.1 Sumber Data
+### 2.1 Inventarisasi Sumber Data
 
-Data diperoleh dari dua sumber utama:
+Data mentah yang digunakan dalam analisis ini berasal dari **empat sumber independen** yang masing-masing memiliki format, struktur, dan level agregasi berbeda. Seluruh sumber didokumentasikan dalam *source inventory* untuk menjaga reprodusibilitas dan transparansi riset.
 
-| Sumber | Data | Tahun |
-|--------|------|:-----:|
-| Buku Profil Perkembangan Kependudukan Jawa Barat 2024 (Kemendikdasmen) | Angka putus sekolah per jenjang (SD/SMP/SMA/SMK/SLB), estimasi total penduduk | 2024 |
-| Badan Pusat Statistik (BPS) Provinsi Jawa Barat | IPM, persentase kemiskinan (Maret), garis kemiskinan | 2024 |
-| GADM v4.0 + Badan Informasi Geospasial (BIG) | Batas administrasi 27 Kab/Kota (GeoJSON) | — |
+| No | Nama Dataset | Sumber | Periode | Format Awal | Peran |
+|:--:|--------------|--------|:-------:|:-----------:|:-----:|
+| 1 | Angka Putus Sekolah SD/SMP/SMA-SMK per Kab/Kota | Buku Profil Perkembangan Kependudukan Provinsi Jawa Barat 2024 (Disdukcapil Jabar/Kemendikdasmen) | 2024 | PDF (halaman 99-102) → CSV | **Utama** |
+| 2 | Jumlah & Persentase Penduduk Miskin per Kab/Kota | BPS Provinsi Jawa Barat — Jawa Barat Dalam Angka 2025 (tabel 4.6.2) | 2024 (Maret) | PDF → CSV | Pendukung |
+| 3 | IPM dan Komponen IPM per Kab/Kota | BPS Provinsi Jawa Barat — Jawa Barat Dalam Angka 2025 (tabel 4.6.5–4.6.6) & Publikasi IPM Jabar 2024 | 2024 | PDF → CSV | Pendukung |
+| 4 | Proyeksi Penduduk per Kab/Kota | BPS Provinsi Jawa Barat — Jawa Barat Dalam Angka 2025 (tabel 3.1.3) | 2024 | PDF → CSV | Pendukung |
+| 5 | Data ATS SD/SMP/SMA (Provinsi) | Kemendikdasmen Pusdatin — Portal Data Kemendikdasmen | 2024 | XLSX | Referensi pembanding |
+| 6 | Batas Administrasi 27 Kab/Kota | GADM v4.0 + Badan Informasi Geospasial | — | Shapefile / GeoJSON | Spasial |
 
-### 2.2 Variabel Dataset
+Dataset nomor 1 hingga 4 diekstraksi dari dokumen PDF dan XLSX menjadi format CSV melalui proses transkripsi tabel manual dan otomatis. Dataset nomor 5 digunakan sebagai referensi pembanding dan tidak dijadikan dataset utama karena level wilayahnya provinsi, bukan Kabupaten/Kota.
 
-Dataset akhir terdiri dari **18 kolom** dan **27 baris** (setiap baris mewakili satu Kabupaten/Kota).
+---
 
-| No | Variabel | Tipe | Deskripsi |
-|:--:|----------|:----:|-----------|
-| 1 | `Kab_Kota` | Kategorik | Nama 27 Kabupaten/Kota |
-| 2 | `Putus_SD` | Numerik | Jumlah putus sekolah jenjang SD |
-| 3 | `Putus_SMP` | Numerik | Jumlah putus sekolah jenjang SMP |
-| 4 | `Putus_SMA` | Numerik | Jumlah putus sekolah jenjang SMA |
-| 5 | `Putus_SMK` | Numerik | Jumlah putus sekolah jenjang SMK |
-| 6 | `Putus_SLB` | Numerik | Jumlah putus sekolah jenjang SLB |
-| 7 | `IPM_2024` | Numerik | Indeks Pembangunan Manusia |
-| 8 | `Laju_IPM` | Numerik | Laju pertumbuhan IPM (%) |
-| 9 | `Garis_Kemiskinan_Maret` | Numerik | Garis kemiskinan (rupiah) |
-| 10 | `Jumlah_Miskin_Maret_Ribu` | Numerik | Jumlah penduduk miskin (ribu jiwa) |
-| 11 | `Persentase_Miskin_Maret` | Numerik | Persentase penduduk miskin (%) |
-| 12 | `Total_Putus_Sekolah` | Numerik | Total putus sekolah (semua jenjang) |
-| 13 | `Estimasi_Total_Penduduk` | Numerik | Proyeksi penduduk 2024 |
-| 14 | `Putus_Sekolah_per_10k_Penduduk` | Numerik | Rate putus sekolah per 10.000 penduduk |
-| 15 | `Cluster` | Numerik | Label klaster (0/1/2) |
-| 16 | `Tingkat_Kerentanan` | Kategorik | Risiko Tinggi/Sedang/Rendah |
+### 2.2 Data Putus Sekolah — Sumber Utama
 
-### 2.3 GeoJSON
+Sumber utama analisis adalah **Buku Profil Perkembangan Kependudukan Provinsi Jawa Barat 2024** yang diterbitkan oleh Dinas Kependudukan dan Pencatatan Sipil Jawa Barat bekerja sama dengan Kemendikdasmen. Data putus sekolah tercantum pada **halaman 99 hingga 102** buku tersebut dalam bentuk tabel agregat per Kabupaten/Kota, dengan cut-off data per 30 November 2024.
 
-Batas administrasi diperoleh dari dua sumber yang digabungkan:
-- **GADM v4.0** — mencakup 26 Kabupaten/Kota (tidak termasuk Pangandaran)
-- **BIG (Badan Informasi Geospasial)** — mencakup Kab. Pangandaran
+#### 2.2.1 Struktur Data Mentah
 
-Keduanya digabungkan menjadi satu file `jabar_27.geojson` dengan properti kunci `Kab_Kota` yang sudah diselaraskan dengan dataset utama.
+Data putus sekolah tersimpan dalam format **long (tidy)** — setiap wilayah memiliki **tiga baris data** yang mewakili tiga jenjang pendidikan:
+
+| Kolom | Tipe | Contoh Isi | Deskripsi |
+|-------|:----:|------------|-----------|
+| `kode_kabkota` | Kategorik | `3201` | Kode BPS 4-digit (kabupaten: 3201–3218, kota: 3271–3279) |
+| `kabupaten_kota` | Kategorik | `BOGOR` | Nama wilayah dalam huruf kapital, tanpa gelar "Kab." atau "Kota" |
+| `jenjang` | Kategorik | `SD` | Jenjang pendidikan: `SD`, `SMP`, atau `SMA_SMK` |
+| `jumlah_siswa` | Numerik | `701856` | Total siswa terdaftar pada jenjang tersebut — berfungsi sebagai **denominator** untuk menghitung angka putus sekolah |
+| `jumlah_putus_sekolah` | Numerik | `533` | Jumlah absolut siswa yang tercatat putus sekolah |
+| `angka_putus_sekolah_pct` | Numerik | `0,08` | Persentase putus sekolah terhadap total siswa = `(jumlah_putus ÷ jumlah_siswa) × 100` |
+| `sumber_tabel` | Kategorik | `Buku Profil ... halaman 99-102` | Referensi sumber untuk verifikasi |
+
+Dengan 27 wilayah dan 3 jenjang, total **81 baris data mentah**.
+
+#### 2.2.2 Karakteristik Data Mentah
+
+Poin penting yang perlu dicatat dari struktur data mentah ini:
+
+**Format long (tidy):** Keputusan menyimpan data dalam format long (satu baris per jenjang per wilayah) merupakan praktik *tidy data* yang memudahkan agregasi dan transformasi di tahap preprocessing. Data ini akan di-*pivot* ke format wide (satu baris per wilayah dengan kolom per jenjang) pada tahap integrasi.
+
+**Keterbatasan jenjang:** Data mentah hanya mencakup **tiga kategori jenjang** — SD, SMP, dan **SMA_SMK** (masih tergabung). Artinya:
+- Angka putus untuk SMA dan SMK **belum terpisah** pada data mentah — keduanya masih menjadi satu nilai agregat.
+- **Tidak ada data SLB** (Sekolah Luar Biasa) pada sumber utama ini. Data SLB yang muncul di dataset bersih berasal dari sumber tambahan atau diisi berdasarkan verifikasi silang dengan sumber referensi Kemendikdasmen.
+
+**Jumlah siswa sebagai denominator:** Kelebihan data ini adalah tersedianya kolom `jumlah_siswa` yang memungkinkan perhitungan **angka putus sekolah dalam persentase** (sudah dihitung sebagai `angka_putus_sekolah_pct`) serta perhitungan **rate per 10 ribu penduduk** setelah digabung dengan data proyeksi penduduk dari BPS.
+
+**Keterbatasan definisi:** Data ini mencatat angka **putus sekolah** (*dropout*), bukan **anak tidak sekolah** (*out-of-school children*) secara keseluruhan. Seorang anak yang sama sekali tidak pernah bersekolah tidak tercakup dalam statistik ini.
+
+#### 2.2.3 Contoh Data Mentah
+
+Cuplikan data untuk tiga wilayah:
+
+| kode_kabkota | kabupaten_kota | jenjang | jumlah_siswa | jumlah_putus | angka_putus_pct |
+|:------------:|:--------------:|:-------:|:------------:|:------------:|:---------------:|
+| 3201 | BOGOR | SD | 701.856 | 533 | 0,08 |
+| 3201 | BOGOR | SMP | 346.527 | 254 | 0,07 |
+| 3201 | BOGOR | SMA_SMK | 283.834 | 123 | 0,04 |
+| 3204 | BANDUNG | SD | 408.652 | 345 | 0,08 |
+| 3204 | BANDUNG | SMP | 191.845 | 85 | 0,04 |
+| 3204 | BANDUNG | SMA_SMK | 158.731 | 26 | 0,02 |
+| 3273 | KOTA BANDUNG | SD | 225.076 | 32 | 0,01 |
+| 3273 | KOTA BANDUNG | SMP | 116.584 | 1 | 0,00 |
+| 3273 | KOTA BANDUNG | SMA_SMK | 133.908 | 8 | 0,01 |
+
+Terlihat bahwa Kab. Bogor memiliki `jumlah_siswa` SD sebanyak 701.856 dengan 533 putus sekolah (0,08%), sementara Kota Bandung hanya 32 putus dari 225.076 siswa (0,01%) — indikasi awal disparitas risiko yang akan dianalisis lebih lanjut.
+
+---
+
+### 2.3 Data Sosial-Ekonomi dan Kependudukan — BPS
+
+Data pendukung bersumber dari **Provinsi Jawa Barat Dalam Angka 2025** (terbitan BPS) yang diunduh melalui web-api BPS. Empat tabel diekstraksi: tabel 3.1.3 (proyeksi penduduk), tabel 4.6.2 (kemiskinan), serta tabel 4.6.5 dan 4.6.6 (IPM dan komponennya). Data IPM juga diverifikasi dengan **Publikasi IPM Jawa Barat 2024**.
+
+#### 2.3.1 Struktur Data Mentah
+
+Data BPS disimpan dalam format **wide** — satu baris per wilayah dengan seluruh variabel sebagai kolom:
+
+| Kolom | Tipe | Deskripsi |
+|-------|:----:|-----------|
+| `kode_kabkota` | Kategorik | Kode BPS 4-digit |
+| `kabupaten_kota` | Kategorik | Nama wilayah (huruf kapital, tanpa gelar) |
+| `jumlah_penduduk_2024` | Numerik | Proyeksi penduduk tahun 2024 (jiwa) — tabel 3.1.3 |
+| `garis_kemiskinan_2024` | Numerik | Garis kemiskinan (rupiah/kapita/bulan) — tabel 4.6.2 |
+| `penduduk_miskin_ribu_2024` | Numerik | Jumlah penduduk miskin dalam ribuan jiwa — tabel 4.6.2 |
+| `persentase_penduduk_miskin_2024` | Numerik | Persentase penduduk miskin terhadap total penduduk — tabel 4.6.2 |
+| `ipm_2024` | Numerik | Indeks Pembangunan Manusia (skala 0–100) — tabel 4.6.5 |
+| `uhh_2024` | Numerik | Umur Harapan Hidup saat lahir (tahun) — tabel 4.6.6 |
+| `harapan_lama_sekolah_2024` | Numerik | Harapan Lama Sekolah (tahun) — tabel 4.6.6 |
+| `rata_rata_lama_sekolah_2024` | Numerik | Rata-rata Lama Sekolah (tahun) — tabel 4.6.6 |
+| `pengeluaran_per_kapita_2024_ribu` | Numerik | Pengeluaran per kapita (ribu rupiah) — tabel 4.6.5 |
+
+#### 2.3.2 Cakupan Data
+
+Seluruh 27 Kabupaten/Kata tercakup untuk data proyeksi penduduk, IPM, dan kemiskinan Maret 2024. Data kemiskinan untuk periode September 2024 juga tersedia di publikasi BPS, namun memiliki **missing value pada 8 dari 27 wilayah** karena keterbatasan sampel Susenas (Survei Sosial Ekonomi Nasional) di tingkat Kabupaten/Kota untuk estimasi intra-tahunan. Oleh karena itu, data kemiskinan September **tidak disertakan** dalam dataset analisis.
+
+#### 2.3.3 Catatan Penting
+
+- **Nama wilayah** pada data BPS ditulis dalam huruf kapital (`BOGOR`, `BANDUNG`) tanpa tambahan gelar "Kab." atau "Kota" — berbeda dengan format pada data putus sekolah yang sudah menggunakan gelar di beberapa sel. Penyelarasan nama akan dilakukan pada tahap preprocessing.
+- **Tahun data:** Meskipun bersumber dari publikasi "Jabar Dalam Angka 2025", data yang dirilis adalah data kondisi tahun 2024 (tahun sebelumnya). Seluruh data IPM dan kemiskinan merujuk pada tahun 2024.
+- **Variabel `uhh_2024`** (Umur Harapan Hidup) dan **`pengeluaran_per_kapita_2024_ribu`** merupakan komponen penyusun IPM yang tersedia di data mentah namun tidak digunakan secara langsung dalam model klastering — keduanya berkontribusi pada nilai IPM itu sendiri.
+
+---
+
+### 2.4 Data Referensi — Kemendikdasmen Pusdatin
+
+Sebagai referensi pembanding, diunduh pula data **Anak Tidak Sekolah (ATS)** tingkat provinsi dari Portal Data Kemendikdasmen (Kemendikdasmen Pusdatin) dalam format XLSX:
+
+| File | Jenjang | Level |
+|------|:-------:|:-----:|
+| `ats_sd_2024.xlsx` | SD | Provinsi |
+| `ats_smp_2024.xlsx` | SMP | Provinsi |
+| `ats_sma_2024.xlsx` | SMA | Provinsi |
+
+Dataset ini **tidak digunakan sebagai dataset utama** karena level agregasinya provinsi, bukan 27 Kabupaten/Kota. Fungsinya adalah sebagai alat verifikasi silang — memastikan bahwa angka agregat putus sekolah dari sumber utama (Buku Profil Kependudukan) konsisten dengan data ATS resmi Kemendikdasmen ketika diagregasi ke tingkat provinsi.
+
+---
+
+### 2.5 Data Spasial — GeoJSON
+
+Batas administrasi wilayah untuk keperluan pemetaan diperoleh dari **dua sumber** yang digabungkan karena tidak ada satu sumber pun yang mencakup seluruh 27 Kabupaten/Kota dengan akurat:
+
+1. **GADM v4.0** (Database Administratif Global) — menyediakan batas wilayah untuk **26 Kabupaten/Kota**. **Tidak mencakup Kab. Pangandaran**, yang merupakan daerah otonom baru pemekaran dari Kab. Ciamis berdasarkan Undang-Undang Nomor 21 Tahun 2012. Format: Shapefile dengan sistem koordinat EPSG:4326 (WGS 84).
+
+2. **Badan Informasi Geospasial (BIG)** — melalui repositori publik, menyediakan *shapefile* batas administrasi yang mencakup **Kab. Pangandaran**. Sistem koordinat perlu diselaraskan dengan GADM, dan properti nama perlu diseragamkan.
+
+Kedua sumber digabungkan dengan tahapan:
+- Penyelarasan sistem koordinat ke EPSG:4326
+- Penyeragaman properti atribut — GADM menggunakan kolom `NAME_2` dan `VARNAME_2`, sementara BIG menggunakan kolom `nama`; keduanya diselaraskan ke properti `Kab_Kota`
+- Verifikasi batas — dipastikan tidak ada tumpang tindih (*overlap*) atau celah (*gap*) antara Pangandaran dan Ciamis
+- Ekspor ke format **GeoJSON** sebagai file `jabar_27.geojson` (3,9 MB, 27 *features*)
+
+Properti kunci `Kab_Kota` pada GeoJSON akan digunakan sebagai *join key* saat visualisasi choropleth.
+
+---
+
+### 2.6 Ringkasan Dataset Mentah
+
+| Dataset | Format Asli | Baris × Kolom | Sumber | Peran |
+|---------|:-----------:|:-------------:|--------|:-----:|
+| Putus Sekolah per Jenjang | CSV (long) | 81 × 7 | Buku Profil Kependudukan Jabar 2024 hal. 99–102 | **Utama** |
+| BPS Pendukung | CSV (wide) | 27 × 12 | Jabar Dalam Angka 2025 tabel 3.1.3, 4.6.2, 4.6.5, 4.6.6 | Pendukung |
+| ATS Kemendikdasmen | XLSX | — | Portal Data Kemendikdasmen | Referensi |
+| GeoJSON | GeoJSON | 27 *features* | GADM v4.0 + BIG | Spasial |
+
+Dari keempat sumber ini, data putus sekolah (format long, 81 baris) akan digabungkan dengan data BPS (format wide, 27 baris) melalui **kode wilayah** sebagai kunci penggabungan, kemudian ditransformasi menjadi dataset wide 27 × 18 kolom pada tahap preprocessing.
 
 ---
 
