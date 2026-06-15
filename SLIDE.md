@@ -3,7 +3,7 @@
 
 **II4013 Data Analytics — Kelompok 9**
 
-> Panduan: Setiap slide berisi poin-poin narasi. Tambahkan grafik/screenshot dari dashboard atau notebook analisis. Tanda `[]` menandakan placeholder yang perlu diisi.
+> Panduan: Setiap slide berisi poin-poin narasi. Tanda `[]` menandakan placeholder yang perlu diisi.
 
 ---
 
@@ -17,28 +17,28 @@ di Jawa Barat Tahun 2024
 II4013 Data Analytics — Kelompok 9
 
 **Anggota:**
-- Andhika Maulana
-- Arqila Surya Putra
-- Muhammad Farhan
-- Muhammad Naufal Fathan
+- Andhika Maulana — Dashboard Developer
+- Arqila Surya Putra — Data Analyst / Modeler
+- Muhammad Farhan — Data Engineer & Presentation Support
+- Muhammad Naufal Fathan — Documentation & Insight Lead
 
 **Logo:** `[Logo ITERA / Fakultas]`
 
 ---
 
-### Slide 2 — Agenda
+### Slide 2 — Agenda (OSEMN)
 
-1. Latar Belakang & Rumusan Masalah
-2. Data & Metodologi (OSEMN)
-3. Hasil Analisis: Korelasi
-4. Hasil Analisis: Klastering
-5. Peta Sebaran Risiko
-6. Dashboard Interaktif
-7. Kesimpulan & Rekomendasi
+1. **Pendahuluan**
+2. **O**btain — Akuisisi & Dokumentasi Data
+3. **S**crub — Pembersihan & Integrasi Data
+4. **E**xplore — Mempelajari & Analisis Data
+5. **M**odel — Pemodelan & Analisis Lanjutan
+6. i**N**terpret — Hasil & Visualisasi
+7. **Kesimpulan** & Rekomendasi
 
 ---
 
-### Slide 3 — Latar Belakang
+### Slide 3 — Pendahuluan
 
 **Masalah:**
 - Angka putus sekolah Jawa Barat 2024 mencapai **5.940 siswa**
@@ -57,7 +57,7 @@ II4013 Data Analytics — Kelompok 9
 
 ---
 
-### Slide 4 — Data (Obtain)
+### Slide 4 — Akuisisi Data (Obtain)
 
 **Sumber Data:**
 
@@ -69,11 +69,13 @@ II4013 Data Analytics — Kelompok 9
 
 **18 variabel** — 27 Kabupaten/Kota — **0 missing value**
 
-**Visual:** `[Tabel rangkuman variabel]`
+**GeoJSON:** Gabungan GADM v4.0 (26 wilayah) + BIG (Kab. Pangandaran).
+
+**Visual:** `[Tabel variabel lengkap]`
 
 ---
 
-### Slide 5 — Data Preparation (Scrub)
+### Slide 5 — Pembersihan Data (Preprocessing)
 
 **Masalah & Penanganan:**
 
@@ -88,7 +90,7 @@ II4013 Data Analytics — Kelompok 9
 
 ---
 
-### Slide 6 — Analisis Deskriptif (Explore)
+### Slide 6 — Eksplorasi Data (Explore)
 
 **Statistik Utama:**
 
@@ -105,7 +107,7 @@ II4013 Data Analytics — Kelompok 9
 
 ---
 
-### Slide 7 — Korelasi
+### Slide 7 — Korelasi (Explore)
 
 **Temuan Utama:**
 
@@ -123,19 +125,30 @@ II4013 Data Analytics — Kelompok 9
 
 ---
 
-### Slide 8 — Klastering — Metode (Model)
+### Slide 8 — Pemodelan K-Means (Modelling)
 
-**Algoritma:** K-Means
+**Algoritma:** K-Means Clustering
+
+**Variabel pemodelan:**
+Persentase Kemiskinan, IPM, RLS, HLS, Pengeluaran per Kapita, Total Putus, Putus per 10k
 
 **Penentuan k optimal:**
-- **Metode Elbow:** Titik siku di k=3
-- **Silhouette Score:** 0,3409 (struktur wajar)
+- **Metode Elbow:** Titik siku di **k=3**
+- **Silhouette Score:** **0,3409** (struktur wajar)
 
-![Grafik Elbow + Silhouette][] *\*placeholder*
+| k | Silhouette |
+|:-:|:----------:|
+| 2 | 0,3120 |
+| **3** | **0,3409** |
+| 4 | 0,2981 |
+
+**Kesimpulan:** k=3 optimal.
+
+**Visual:** `[Grafik Elbow + Silhouette]`
 
 ---
 
-### Slide 9 — Klastering — Hasil
+### Slide 9 — Hasil Klastering
 
 | Klaster | Wilayah | IPM | Kemiskinan | Putus/10k |
 |---------|:-------:|:---:|:----------:|:---------:|
@@ -143,7 +156,13 @@ II4013 Data Analytics — Kelompok 9
 | 🟡 **Sedang** (11) | 7 Kab + 4 Kota | 75,28 | 7,30% | 1,04 |
 | 🟢 **Rendah** (4) | 4 Kota Besar | 82,66 | 3,65% | 0,51 |
 
-**Pola:** Kabupaten agraris = risiko tinggi, kota besar = risiko rendah.
+**Karakteristik Centroid:**
+
+| Klaster | Rata-rata Putus | Rata-rata RLS |
+|---------|:---------------:|:-------------:|
+| Prioritas Rendah | 115,25 | 11,49 thn |
+| Prioritas Sedang | 295,95 | 8,38 thn |
+| Prioritas Tinggi | 385,33 | 9,03 thn |
 
 **Visual:** `[Tabel karakteristik klaster]`
 
@@ -158,8 +177,9 @@ II4013 Data Analytics — Kelompok 9
 - **Hijau (#5cb85c):** Risiko Rendah
 
 **Pola Spasial:**
-- Risiko Tinggi → **Selatan & Timur** (pegunungan, agraris)
-- Risiko Rendah → **Bandung Raya & Jakarta satelit**
+- Risiko Tinggi → **Selatan & Timur** (Priangan Timur, Ciayumajakuning — agraris)
+- Risiko Sedang → **Zona transisi** (penyangga ibu kota)
+- Risiko Rendah → **Bandung Raya & Jakarta satelit** (perkotaan)
 
 **Visual:** `[Screenshot choropleth map dari dashboard]`
 
@@ -184,6 +204,8 @@ II4013 Data Analytics — Kelompok 9
 | 27 | Kota Bandung | 4,71 | 3,87% |
 | 26 | Kota Depok | 9,00 | 2,34% |
 | 25 | Kota Bekasi | 13,06 | 4,01% |
+| 24 | Kota Cimahi | 21,96 | 4,39% |
+| 23 | Kota Bogor | 36,04 | 6,53% |
 
 **Rasio** Kab. Tasikmalaya : Kota Bandung = **19:1**
 
@@ -196,41 +218,58 @@ II4013 Data Analytics — Kelompok 9
 **Teknologi:** Dash (Plotly) + Pandas
 
 **5 Komponen:**
-1. 🗺️ **Choropleth Map** — klik wilayah → detail card
+1. 🗺️ **Choropleth Map** — klik wilayah → detail card + insight naratif
 2. 📈 **Scatter Plot** — korelasi kemiskinan vs putus sekolah
-3. 📊 **Bar Chart** — breakdown per jenjang
+3. 📊 **Bar Chart** — breakdown per jenjang (SD/SMP/SMA/SMK/SLB)
 4. 🏆 **Ranking Table** — sortable, 10 per halaman
-5. 📋 **Cluster Summary** — karakteristik centroid
+5. 📋 **Cluster Summary** — karakteristik centroid tiap klaster
 
 **Fitur:**
 - Filter dropdown sinkron ke semua grafik
-- Klik peta update dropdown & detail card
-- Warna sesuai tingkat risiko
+- Klik peta → filter dropdown & detail card terupdate
+- Warna sesuai tingkat risiko (merah/jingga/hijau)
 
 **Cara menjalankan:**
 ```bash
-git clone [repo-url]
+git clone https://github.com/AndhikaAddiputra/dashboard-andat.git
 cd dashboard-andat
 pip install -r requirements.txt
 python3 app.py
 # Buka http://localhost:8050
 ```
 
-**Visual:** `[Screenshot penuh dashboard atau screencast singkat]`
+**Visual:** `[Screenshot penuh dashboard]`
 
 ---
 
-### Slide 13 — Kesimpulan
+### Slide 13 — Detail Klaster & Insight
 
-1. **12 wilayah** (44%) masuk klaster **Risiko Tinggi** — mayoritas kabupaten agraris di selatan/timur
+**Risiko Tinggi (12 Wilayah):**
+- IPM 71,46 | Kemiskinan 10,12% | Putus/10k 1,43
+- 11 kabupaten + 1 kota (Kota Tasikmalaya)
+- Terkonsentrasi di selatan & timur Jabar
+
+**Risiko Sedang (11 Wilayah):**
+- IPM 75,28 | Kemiskinan 7,30% | Putus/10k 1,04
+- Zona transisi, termasuk penyangga ibu kota
+
+**Risiko Rendah (4 Wilayah):**
+- IPM 82,66 | Kemiskinan 3,65% | Putus/10k 0,51
+- Kota besar: Bandung, Bekasi, Depok, Cimahi
+
+---
+
+### Slide 14 — Kesimpulan
+
+1. **12 wilayah** (44%) masuk klaster **Risiko Tinggi** — didominasi kabupaten agraris di selatan/timur Jabar
 2. **Kemiskinan** berkorelasi signifikan dengan putus sekolah (r=0,39; p=0,04)
-3. **SD** menyumbang **87,36%** dari total putus sekolah — prioritas utama
+3. **SD** menyumbang **87,36%** dari total putus sekolah (5.940 siswa) — prioritas utama
 4. **IPM** dan **RLS** menjadi proksi terkuat risiko putus sekolah (r < -0,9)
 5. **Jurang lebar** antar wilayah: rasio 19:1 antara tertinggi dan terendah
 
 ---
 
-### Slide 14 — Rekomendasi Kebijakan
+### Slide 15 — Rekomendasi Kebijakan
 
 | Prioritas | Target | Intervensi |
 |-----------|--------|------------|
@@ -240,12 +279,12 @@ python3 app.py
 
 **Fokus khusus:**
 - **SD** — early warning system deteksi risiko putus
-- **SMK** — reformasi kurikulum, perluas program magang
-- **SLB** — perluasan akses pendidikan inklusif
+- **SMK** — reformasi kurikulum berbasis industri, perluas magang
+- **SLB** — perluasan akses pendidikan inklusif di kabupaten
 
 ---
 
-### Slide 15 — Penutup
+### Slide 16 — Penutup
 
 **Terima Kasih**
 
@@ -253,7 +292,7 @@ Kelompok 9 — II4013 Data Analytics
 
 **Kontak:** `[]`
 
-**Repositori:** `[URL GitHub]`
+**Repositori:** https://github.com/AndhikaAddiputra/dashboard-andat
 
 ---
 
@@ -261,9 +300,10 @@ Kelompok 9 — II4013 Data Analytics
 
 | Poin | Saran |
 |------|-------|
-| **Durasi** | 4-5 menit untuk 14 slide (≈20 detik/slide) |
+| **Durasi** | 4-6 menit untuk 16 slide (≈20-25 detik/slide) |
 | **Pembagian** | Masing-masing anggota presentasi 3-4 slide |
-| **Demo Dashboard** | Siapkan `python3 app.py` berjalan di lokal, atau siapkan screenshot cadangan jika jaringan bermasalah |
-| **Grafik** | Gunakan screenshot dari dashboard untuk grafik di slide — tidak perlu plot ulang |
+| **Demo Dashboard** | Siapkan `python3 app.py` berjalan di lokal, atau siapkan screenshot cadangan |
+| **Grafik** | Gunakan screenshot dari dashboard untuk grafik — tidak perlu plot ulang |
 | **Backup** | Siapkan PDF laporan + screenshot di USB drive |
 | **Peta** | Pastikan GeoJSON termuat sempurna sebelum demo |
+| **Urutan OSEMN** | Slide mengikuti struktur laporan 7 bagian: Pendahuluan → Obtain → Preprocessing → Explore → Modelling → Hasil → Kesimpulan |
